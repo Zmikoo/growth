@@ -1,0 +1,9 @@
+.gr-blue-btn{
+	background-color: #409EFF;
+	color:#fff;
+	border-radius: 5px;
+	border:0 none;
+	padding: 10px 8px;
+	cursor: pointer
+	outline: 0;
+}

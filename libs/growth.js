@@ -175,5 +175,7 @@
 		}
 	}
 	
+
+	
 	window.growth = new Growth();
 }(window))
