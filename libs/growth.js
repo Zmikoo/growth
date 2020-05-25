@@ -1,9 +1,34 @@
 // 第一个插件：轮播图
 // import './utils.js'
 (function(window){
-	function Growth(){
-	}
 
+	function _gUtils(){
+		return {
+			cDom(type) {
+				return document.createElement(type);
+			},
+			gDom(sign){
+				return document.querySelector(sign);
+			},
+			setStyle(map){
+				map.forEach(function(styleList,domObj){
+					for (var s in styleList) {
+						domObj.style[s] = styleList[s];
+					}
+				})
+			},
+			addDom(parent,children){
+				children.forEach(child => {
+					parent.appendChild(child);
+				})
+			}
+		}
+	}
+	var _ = _gUtils();
+
+	function Growth(){
+	}	
+	
 	Growth.prototype.setStyle = function(dom,options,fn){
 		new Promise(function(resolve,reject){
 			for (var key in options){
@@ -19,6 +44,114 @@
 		})
 	}
 
+	// 模态框
+	Growth.prototype.showModals = function(options){
+		var self = this;
+		var _options = {
+			title:options.title || '标题',
+			content : options.content || '文本内容',
+			confirmText: options.confirmText || '确认',
+			cancelText: options.cancelText || '取消',
+			onConfirm: options.onConfirm || (() => {}),
+			onCancel: options.onCancel || (() => {})
+		}
+		// var box = document.createElement('div');
+		var box = _.cDom('div');
+		var boxTit = _.cDom('div');
+		boxTit.textContent = _options.title;
+		var closeBtn = _.cDom('button');
+		closeBtn.textContent = 'X';
+		var content = _.cDom('div');
+		content.textContent = _options.content;
+		var btnBox = _.cDom('div');
+		var confirmBtn = _.cDom('button');
+		var cancelBtn = _.cDom('button');
+		confirmBtn.textContent = _options.confirmText;
+		cancelBtn.textContent = _options.cancelText;
+		const m = new Map([
+			[box,{
+				position:'fixed',
+				left: '50%',
+				top: '40%',
+				transform: 'translate(-50%,-50%)',
+				width: '700px',
+				// height: '400px',
+				boxShadow: '0px 0px 10px #ddd',
+				backgroundColor:'#fff',
+				borderRadius:'5px'
+			}],
+			[boxTit,{
+				borderBottom: '1px solid #ddd',
+				height:'50px',
+				lineHeight:'50px',
+				padding:'0px 20px'
+			}],
+			[closeBtn,{
+				position: 'absolute',
+				right:'0px',
+				top:'0px',
+				height:'50px',
+				width: '50px',
+				backgroundColor:'#fff',
+				border:'none',
+				outline:'none',
+				fontSize:'25px'
+			}],
+			[content,{
+				padding: '20px 30px',
+				lineHeight: '20px',
+				textAlign: 'justify',
+			}],
+			[btnBox,{
+				textAlign: 'center',
+				margin: '10px'
+			}],
+			[confirmBtn,{
+				backgroundColor:'#fff',
+				border: '1px solid #ddd',
+				borderRadius: '5px',
+				padding: '10px 15px',
+				marginRight: '100px'
+			}],
+			[cancelBtn,{
+				backgroundColor:'#fff',
+				border: '1px solid #ddd',
+				borderRadius: '5px',
+				padding: '10px 15px'
+			}]
+		])
+		_.setStyle(m);
+		closeBtn.addEventListener('click',function(){
+			self.setStyle(box,{
+				display: 'none'
+			})
+		},false)
+		confirmBtn.addEventListener('click',function () {
+			new Promise((resolve,reject) => {
+				_options.onConfirm()
+				resolve();
+			}).then(() => {
+				self.setStyle(box,{
+					display: 'none'
+				})
+			})
+		},false);
+		cancelBtn.addEventListener('click',function () {
+			new Promise((resolve,reject) => {
+				_options.onCancel()
+				resolve();
+			}).then(() => {
+				self.setStyle(box,{
+					display: 'none'
+				})
+			})
+		},false);
+		_.addDom(btnBox,[confirmBtn,cancelBtn])
+		_.addDom(box,[boxTit,closeBtn,content,btnBox]);
+		document.getElementsByTagName('body')[0].appendChild(box)
+	}
+
+
 	// 轮播图
 	Growth.prototype.slider = function(options){
 		let self = this;
@@ -26,7 +159,7 @@
 			console.error('请传入选择器！');
 			return;
 		}
-		var options = {
+		var _options = {
 			el: options.el,
 			width: options.width || '600px',
 			height: options.height || '420px',
@@ -38,35 +171,30 @@
 			firstShow: options.firstShow || 0
 		}
 
-		var boxDom = document.querySelector(options.el);
+		var boxDom = document.querySelector(_options.el);
 		var boxWidthVal,boxWidthUnit;
-		if (options.width.indexOf('px') !== -1) {
-			boxWidthVal = parseFloat(options.width.substring(0,options.width.length-2));
+		if (_options.width.indexOf('px') !== -1) {
+			boxWidthVal = parseFloat(_options.width.substring(0,_options.width.length-2));
 			boxWidthUnit = 'px';
-		} else if (options.width.indexOf('rem') !== -1) {
-			boxWidthVal = parseFloat(options.width.substring(0,options.width.length-3));
+		} else if (_options.width.indexOf('rem') !== -1) {
+			boxWidthVal = parseFloat(_options.width.substring(0,_options.width.length-3));
 			boxWidthUnit = 'rem';
-		} else if (options.width.indexOf('em') !== -1) {
-			boxWidthVal = parseFloat(options.width.substring(0,options.width.length-2));
+		} else if (_options.width.indexOf('em') !== -1) {
+			boxWidthVal = parseFloat(_options.width.substring(0,_options.width.length-2));
 			boxWidthUnit = 'em';
 		} else {
 		}
 		var ulDom = boxDom.getElementsByTagName('ul')[0];
 		var liDom = ulDom.getElementsByTagName('li');
 		var itemLength = liDom.length;
-		var index = options.firstShow < 0 ? 0 : (options.firstShow > liDom.length - 1 ? (liDom.length - 1) : options.firstShow) 
+		var index = _options.firstShow < 0 ? 0 : (_options.firstShow > liDom.length - 1 ? (liDom.length - 1) : _options.firstShow) 
 		initStyle()
 		initArrow();
-		if (options.dotShow) {
+		if (_options.dotShow) {
 			initDot();
 		}
 		function initStyle(){
-			boxDom.style.width = options.width;
-			boxDom.style.height = options.height;
-			boxDom.style.overflow = 'hidden';
-			boxDom.style.position = 'relative';
-
-			// if(options.cycle){
+			// if(_options.cycle){
 			// 	var repLi = document.createElement('li');
 			// 	var repImg = document.createElement('img');
 			// 	repImg.src = liDom[0].getElementsByTagName('img')[0].src;
@@ -74,22 +202,39 @@
 			// 	ulDom.appendChild(repLi);
 			// }
 			var ulWid = boxWidthVal * liDom.length;
-			ulDom.style.width = ulWid + boxWidthUnit;
-			ulDom.style.padding = '0px';
-			ulDom.style.margin = '0px';
-			ulDom.style.position = 'relative';
-			ulDom.style.left = -index * boxWidthVal + boxWidthUnit;
-			ulDom.style.transition = `left ${options.scrollTransitonTime}s`;
-			ulDom.style.listStyle = 'none';
+			_.setStyle(new Map([
+				[boxDom,{
+					width: _options.width,
+					height: _options.height,
+					overflow: 'hidden',
+					position: 'relative'
+				}],
+				[ulDom,{
+					width: ulWid + boxWidthUnit,
+					padding: '0px',
+					margin: '0px',
+					position: 'relative',
+					left: -index * boxWidthVal + boxWidthUnit,
+					transition: `left ${_options.scrollTransitonTime}s`,
+					listStyle: 'none'
+				}]
+			]))
 			for(var i = 0; i < liDom.length; i++) {	
-				// liDom[i].style.listStyle = 'none';
-				liDom[i].style.width = options.width;
-				liDom[i].style.height = options.height;
-				liDom[i].style.float = 'left';
-
 				var imgItem = liDom[i].getElementsByTagName('img')[0];
-				imgItem.style.width = '100%';
-				imgItem.style.height = '100%';
+				(function(index){
+					_.setStyle(new Map([
+										[liDom[index],{
+											width: _options.width,
+											height: _options.height,
+											float: 'left'
+										}],
+										[imgItem,{
+											width: '100%',
+											height: '100%'
+										}]
+									]))
+				}(i))
+				
 			}
 		}
 
@@ -116,23 +261,29 @@
 		}
 
 		function initArrow(){
-			var arrowBox = document.createElement('div');
-			arrowBox.style.position = 'absolute';
-			arrowBox.style.top = '45%';
-			arrowBox.style.width = '100%';
-			arrowBox.style.fontSize = '40px';
-			arrowBox.style.color = '#fff';
+			var arrowBox = _.cDom('div');
 			var arrowLeft = document.createElement('span');
 			arrowLeft.textContent = '<';
-			arrowLeft.style.cursor = 'pointer'
 			var arrowRight = document.createElement('span');
 			arrowRight.textContent = '>';
-			arrowRight.style.float = 'right';
-			arrowRight.style.cursor = 'pointer'
-			arrowBox.appendChild(arrowLeft);
-			arrowBox.appendChild(arrowRight);
-			boxDom.appendChild(arrowBox)
-
+			_.setStyle(new Map([
+				[arrowBox,{
+					position: 'absolute',
+					top: '45%',
+					width: '100%',
+					fontSize: '40px',
+					color: '#fff'
+				}],
+				[arrowLeft,{
+					cursor: 'pointer'
+				}],
+				[arrowRight,{
+					float: 'right',
+					cursor: 'pointer'
+				}]
+			]))
+			_.addDom(arrowBox,[arrowLeft,arrowRight]);
+			_.addDom(boxDom,[arrowBox])
 			arrowLeft.addEventListener('click',function(){
 				prev();
 			},false);
@@ -143,18 +294,27 @@
 		}	
 
 		function initDot(){
-			var dotBox = document.createElement('div');
-			dotBox.style.position = 'absolute';
-			dotBox.style.bottom = '30px';
-			dotBox.style.left = '50%';
-			dotBox.style.transform = 'translateX(-50%)';
+			var dotBox = _.cDom('div');
+			_.setStyle(new Map([
+				[dotBox,{
+					position: 'absolute',
+					bottom: '30px',
+					left: '50%',
+					transform: 'translateX(-50%)'
+				}]
+			]))
 			for(var i = 0; i < liDom.length; i++) {
-				var dotItem = document.createElement('span');
-				dotItem.style.display = 'inline-block';
-				dotItem.style.width = '20px';
-				dotItem.style.height = '20px';
-				dotItem.style.borderRadius = '50%';
-				dotItem.style.margin = '10px';
+				var dotItem = _.cDom('span');
+				_.setStyle(new Map([
+					[dotItem,{
+						display: 'inline-block',
+						width: '20px',
+						height: '20px',
+						borderRadius: '50%',
+						margin: '10px',
+
+					}]
+				]))
 				dotItem.dataset.index = i;
 				dotItem.setAttribute('class','gr-slider-dot')
 				if (i === index){
@@ -166,13 +326,13 @@
 					var index = e.srcElement.dataset.index;
 					goIndex(index)
 				},false);
-				dotBox.appendChild(dotItem);
+				_.addDom(dotBox,[dotItem])
 			}
-			boxDom.appendChild(dotBox);
+			_.addDom(boxDom,[dotBox])
 		}
 
 		function resetDotColor(){
-			if (!options.dotShow)  return;
+			if (!_options.dotShow)  return;
 			var dotList = document.getElementsByClassName('gr-slider-dot');
 			for (let i = 0; i < dotList.length; i++) {
 				if (i === index) {
@@ -186,118 +346,15 @@
 		function play(){
 			var timer = setInterval(function(){
 
-			},options.scrollStayTime * 1000);
+			},_options.scrollStayTime * 1000);
 		}
 	}
 	
+	// 下拉框
 	Growth.prototype.collapse = function(options){
-		
+
 	}
 	
-	Growth.prototype.showModals = function(options){
-		var self = this;
-		var _options = {
-			title:options.title || '标题',
-			content : options.content || '文本内容',
-			confirmText: options.confirmText || '确认',
-			cancelText: options.cancelText || '取消',
-			onConfirm: options.onConfirm || (() => {}),
-			onCancel: options.onCancel || (() => {})
-		}
-		var box = document.createElement('div');
-		this.setStyle(box,{
-			position:'fixed',
-			left: '50%',
-			top: '40%',
-			transform: 'translate(-50%,-50%)',
-			width: '700px',
-			// height: '400px',
-			boxShadow: '0px 0px 10px #ddd',
-			backgroundColor:'#fff'
-		});
-		var boxTit = document.createElement('div');
-		boxTit.textContent = _options.title;
-		this.setStyle(boxTit,{
-			borderBottom: '1px solid #ddd',
-			height:'50px',
-			lineHeight:'50px',
-			padding:'0px 20px'
-		})
-		box.appendChild(boxTit);
-		var closeBtn = document.createElement('button');
-		closeBtn.textContent = 'X';
-		this.setStyle(closeBtn,{
-			position: 'absolute',
-			right:'0px',
-			top:'0px',
-			height:'50px',
-			width: '50px',
-			backgroundColor:'#fff',
-			border:'none',
-			outline:'none',
-			fontSize:'25px'
-		});
-		closeBtn.addEventListener('click',function(){
-			self.setStyle(box,{
-				display: 'none'
-			})
-		},false)
-		box.appendChild(closeBtn);
-		var content = document.createElement('div');
-		content.textContent = _options.content,
-		this.setStyle(content,{
-			padding: '20px',
-			lineHeight: '20px',
-			textAlign: 'center',
-		});
-		box.appendChild(content);
-		var btnBox = document.createElement('div');
-		this.setStyle(btnBox,{
-			textAlign: 'center',
-			margin: '10px'
-		})
-		var confirmBtn = document.createElement('button');
-		confirmBtn.textContent = _options.confirmText;
-		this.setStyle(confirmBtn,{
-			backgroundColor:'#fff',
-			border: '1px solid #ddd',
-			borderRadius: '5px',
-			padding: '10px 15px',
-			marginRight: '100px'
-		})
-		var cancelBtn = document.createElement('button');
-		this.setStyle(cancelBtn,{
-			backgroundColor:'#fff',
-			border: '1px solid #ddd',
-			borderRadius: '5px',
-			padding: '10px 15px'
-		})
-		cancelBtn.textContent = _options.cancelText;
-		confirmBtn.addEventListener('click',function () {
-			new Promise((resolve,reject) => {
-				_options.onConfirm()
-				resolve();
-			}).then(() => {
-				self.setStyle(box,{
-					display: 'none'
-				})
-			})
-		},false);
-		cancelBtn.addEventListener('click',function () {
-			new Promise((resolve,reject) => {
-				_options.onCancel()
-				resolve();
-			}).then(() => {
-				self.setStyle(box,{
-					display: 'none'
-				})
-			})
-		},false);
-		btnBox.appendChild(confirmBtn);
-		btnBox.appendChild(cancelBtn);
-		box.appendChild(btnBox)
-		document.getElementsByTagName('body')[0].appendChild(box)
-	}
 
 	window.growth = new Growth();
 }(window))
