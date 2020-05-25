@@ -2,12 +2,23 @@
 决定自己开始封装库和插件
 
 # 用法
-### 轮播图
-1. 引入growth.js
+
+引入growth.js
 ```
 <script src='./libs/growth.js'></script>
 ```
-2. 编辑html:
+### 设置dom样式
+```
+// 第一个参数是获取的Dom节点，第二个参数是要设置的css样式对象，第三个参数是样式设置完成后执行的回调函数
+growth.setStyle(document.querySelector('.gr-blue-btn'),{
+		backgroundColor:'red',
+		color:'blue'
+	},function(){
+		console.log('setStyleSuccess')
+	})
+```
+### 轮播图
+1. 编辑html:
 ```
 <div class="gr-slider-box">
 	<ul>
@@ -17,7 +28,7 @@
 	</ul>
 </div>
 ```
-3. 编辑js:
+2. 编辑js:
 ```
 growth.slider({
 		el:'.gr-slider-box',//必填
@@ -30,4 +41,19 @@ growth.slider({
 		dotShow:true,//选填
 		firstShow:1//选填 第一张显示的图片
 	});
+```
+### 创建模态框
+```
+growth.showModals({
+		title:'提示',// 选题 标题
+		content:'确认删除吗？', // 选填 模态框内容
+		confirmText: '确定',// 选填 确定按钮的文本
+		cancelText: '取消',// 选填 取消按钮文本
+		onConfirm:() => {
+			alert('确认')// 确认回调函数
+		},
+		onCancel:()=> {
+			alert('取消') // 取消回调函数
+		}
+	})
 ```

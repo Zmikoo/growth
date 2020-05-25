@@ -4,8 +4,24 @@
 	function Growth(){
 	}
 
+	Growth.prototype.setStyle = function(dom,options,fn){
+		new Promise(function(resolve,reject){
+			for (var key in options){
+				dom.style[key] = options[key];
+			}
+			resolve();
+		}).then(res => {
+			if (fn) {
+				fn()
+			}
+		}).catch(err => {
+			console.log(err)
+		})
+	}
+
 	// 轮播图
 	Growth.prototype.slider = function(options){
+		let self = this;
 		if (!options.el) {
 			console.error('请传入选择器！');
 			return;
@@ -57,7 +73,6 @@
 			// 	repLi.appendChild(repImg);
 			// 	ulDom.appendChild(repLi);
 			// }
-
 			var ulWid = boxWidthVal * liDom.length;
 			ulDom.style.width = ulWid + boxWidthUnit;
 			ulDom.style.padding = '0px';
@@ -175,7 +190,114 @@
 		}
 	}
 	
-
+	Growth.prototype.collapse = function(options){
+		
+	}
 	
+	Growth.prototype.showModals = function(options){
+		var self = this;
+		var _options = {
+			title:options.title || '标题',
+			content : options.content || '文本内容',
+			confirmText: options.confirmText || '确认',
+			cancelText: options.cancelText || '取消',
+			onConfirm: options.onConfirm || (() => {}),
+			onCancel: options.onCancel || (() => {})
+		}
+		var box = document.createElement('div');
+		this.setStyle(box,{
+			position:'fixed',
+			left: '50%',
+			top: '40%',
+			transform: 'translate(-50%,-50%)',
+			width: '700px',
+			// height: '400px',
+			boxShadow: '0px 0px 10px #ddd',
+			backgroundColor:'#fff'
+		});
+		var boxTit = document.createElement('div');
+		boxTit.textContent = _options.title;
+		this.setStyle(boxTit,{
+			borderBottom: '1px solid #ddd',
+			height:'50px',
+			lineHeight:'50px',
+			padding:'0px 20px'
+		})
+		box.appendChild(boxTit);
+		var closeBtn = document.createElement('button');
+		closeBtn.textContent = 'X';
+		this.setStyle(closeBtn,{
+			position: 'absolute',
+			right:'0px',
+			top:'0px',
+			height:'50px',
+			width: '50px',
+			backgroundColor:'#fff',
+			border:'none',
+			outline:'none',
+			fontSize:'25px'
+		});
+		closeBtn.addEventListener('click',function(){
+			self.setStyle(box,{
+				display: 'none'
+			})
+		},false)
+		box.appendChild(closeBtn);
+		var content = document.createElement('div');
+		content.textContent = _options.content,
+		this.setStyle(content,{
+			padding: '20px',
+			lineHeight: '20px',
+			textAlign: 'center',
+		});
+		box.appendChild(content);
+		var btnBox = document.createElement('div');
+		this.setStyle(btnBox,{
+			textAlign: 'center',
+			margin: '10px'
+		})
+		var confirmBtn = document.createElement('button');
+		confirmBtn.textContent = _options.confirmText;
+		this.setStyle(confirmBtn,{
+			backgroundColor:'#fff',
+			border: '1px solid #ddd',
+			borderRadius: '5px',
+			padding: '10px 15px',
+			marginRight: '100px'
+		})
+		var cancelBtn = document.createElement('button');
+		this.setStyle(cancelBtn,{
+			backgroundColor:'#fff',
+			border: '1px solid #ddd',
+			borderRadius: '5px',
+			padding: '10px 15px'
+		})
+		cancelBtn.textContent = _options.cancelText;
+		confirmBtn.addEventListener('click',function () {
+			new Promise((resolve,reject) => {
+				_options.onConfirm()
+				resolve();
+			}).then(() => {
+				self.setStyle(box,{
+					display: 'none'
+				})
+			})
+		},false);
+		cancelBtn.addEventListener('click',function () {
+			new Promise((resolve,reject) => {
+				_options.onCancel()
+				resolve();
+			}).then(() => {
+				self.setStyle(box,{
+					display: 'none'
+				})
+			})
+		},false);
+		btnBox.appendChild(confirmBtn);
+		btnBox.appendChild(cancelBtn);
+		box.appendChild(btnBox)
+		document.getElementsByTagName('body')[0].appendChild(box)
+	}
+
 	window.growth = new Growth();
 }(window))

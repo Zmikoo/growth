@@ -15,7 +15,8 @@
 			<li><img src='./imgs/lb3.jpg'/></li>
 		</ul>
 	</div>
-	<button class="gr-blue-btn" style="margin: 10px">弹出模态框</button>
+	<button class="gr-blue-btn" style="margin: 10px" onclick="initModal()">点我弹出模态框</button>
+	<div class="hel">growth.setStyle</div>
 </body>
 <!-- <script src='./libs/utils.js'></script> -->
 <script src='./libs/growth.js'></script>
@@ -31,5 +32,29 @@
 		dotShow:true,//选填 默认为true
 		firstShow:0//选填  首次显示的图片。传值若小于0，首次显示第一张，传值若大于li总长度，首次显示最后一张
 	});
+	growth.setStyle(document.querySelector('.hel'),{
+		backgroundColor:'pink',
+		color:'#fff',
+		display: 'inline-block',
+		padding: '10px',
+		borderRadius: '5px'
+	},function(){
+		console.log('setStyleSuccess')
+	})
+	function initModal(){
+		// console.log(111)
+		growth.showModals({
+			title:'提示',// 选题 标题
+			content:'确认删除吗？', // 选填 模态框内容
+			confirmText: '确定',// 选填 确定按钮的文本
+			cancelText: '取消',// 选填 取消按钮文本
+			onConfirm:() => {
+				alert('确认')// 确认回调函数
+			},
+			onCancel:()=> {
+				alert('取消') // 取消回调函数
+			}
+		})
+	}
 </script>
 </html>
