@@ -82,3 +82,20 @@ growth.showModals({
 ```
 growth.tabs('.gr-tab-box')
 ```
+### 下拉框
+1. 编辑html
+```
+<!-- 属性gr-collapse-box可以任意命名 -->
+<div class="gr-collapse-box" style="width:200px;">
+	<div class="gr-collapse-header">
+		点击出现下拉列表
+	</div>
+	<div class="gr-collapse-content">
+		请不要把我隐藏起来！哼！
+	</div>
+</div>
+```	
+2. 编辑js
+```
+growth.collapse('.gr-collapse-box');
+```

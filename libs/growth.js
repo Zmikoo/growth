@@ -4,13 +4,13 @@
 
 	function _gUtils(){
 		return {
-			cDom(type) {
+			cEle(type) {
 				return document.createElement(type);
 			},
-			gDom(sign){
+			qSel(sign){
 				return document.querySelector(sign);
 			},
-			gDoms(sign){
+			qSels(sign){
 				return document.querySelectorAll(sign)
 			},
 			setStyle(map){
@@ -20,7 +20,7 @@
 					}
 				})
 			},
-			addDom(parent,children){
+			addEle(parent,children){
 				children.forEach(child => {
 					parent.appendChild(child);
 				})
@@ -61,16 +61,16 @@
 				onCancel: options.onCancel || (() => {})
 			}
 			// let box = document.createElement('div');
-			let box = _.cDom('div');
-			let boxTit = _.cDom('div');
+			let box = _.cEle('div');
+			let boxTit = _.cEle('div');
 			boxTit.textContent = _options.title;
-			let closeBtn = _.cDom('button');
+			let closeBtn = _.cEle('button');
 			closeBtn.textContent = 'X';
-			let content = _.cDom('div');
+			let content = _.cEle('div');
 			content.textContent = _options.content;
-			let btnBox = _.cDom('div');
-			let confirmBtn = _.cDom('button');
-			let cancelBtn = _.cDom('button');
+			let btnBox = _.cEle('div');
+			let confirmBtn = _.cEle('button');
+			let cancelBtn = _.cEle('button');
 			confirmBtn.textContent = _options.confirmText;
 			cancelBtn.textContent = _options.cancelText;
 			const m = new Map([
@@ -104,7 +104,7 @@
 				}],
 				[content,{
 					padding: '20px 30px',
-					lineHeight: '20px',
+					lineHeight: '25px',
 					textAlign: 'justify',
 				}],
 				[btnBox,{
@@ -151,8 +151,8 @@
 					})
 				})
 			},false);
-			_.addDom(btnBox,[confirmBtn,cancelBtn])
-			_.addDom(box,[boxTit,closeBtn,content,btnBox]);
+			_.addEle(btnBox,[confirmBtn,cancelBtn])
+			_.addEle(box,[boxTit,closeBtn,content,btnBox]);
 			document.getElementsByTagName('body')[0].appendChild(box)
 		}
 
@@ -266,7 +266,7 @@
 			}
 
 			function initArrow(){
-				let arrowBox = _.cDom('div');
+				let arrowBox = _.cEle('div');
 				let arrowLeft = document.createElement('span');
 				arrowLeft.textContent = '<';
 				let arrowRight = document.createElement('span');
@@ -287,8 +287,8 @@
 						cursor: 'pointer'
 					}]
 				]))
-				_.addDom(arrowBox,[arrowLeft,arrowRight]);
-				_.addDom(boxDom,[arrowBox])
+				_.addEle(arrowBox,[arrowLeft,arrowRight]);
+				_.addEle(boxDom,[arrowBox])
 				arrowLeft.addEventListener('click',function(){
 					prev();
 				},false);
@@ -299,7 +299,7 @@
 			}	
 
 			function initDot(){
-				let dotBox = _.cDom('div');
+				let dotBox = _.cEle('div');
 				_.setStyle(new Map([
 					[dotBox,{
 						position: 'absolute',
@@ -309,7 +309,7 @@
 					}]
 				]))
 				for(let i = 0; i < liDom.length; i++) {
-					let dotItem = _.cDom('span');
+					let dotItem = _.cEle('span');
 					_.setStyle(new Map([
 						[dotItem,{
 							display: 'inline-block',
@@ -331,9 +331,9 @@
 						let index = e.srcElement.dataset.index;
 						goIndex(index)
 					},false);
-					_.addDom(dotBox,[dotItem])
+					_.addEle(dotBox,[dotItem])
 				}
-				_.addDom(boxDom,[dotBox])
+				_.addEle(boxDom,[dotBox])
 			}
 
 			function resetDotColor(){
@@ -356,14 +356,25 @@
 		}
 
 		// 下拉框
-		collapse(options){
-
+		collapse(el){
+			console.log(el + ' .gr-collapse-header')
+			const header = _.qSel(el + ' .gr-collapse-header');
+			const content = _.qSel(el + ' .gr-collapse-content');
+			header.addEventListener('click', function(e){
+				if (e.srcElement.attributes[0].value.indexOf('active') !== -1){
+					header.classList.remove('active')
+					content.classList.remove('active')
+				} else {
+					header.classList.add('active')
+					content.classList.add('active')
+				}
+			},false)
 		}
 
 		tabs(el){
-			let header = _.gDom(el + ' .gr-tab-header');
-			let titList = _.gDoms(el + ' .gr-tab-tit');
-			let contentList = _.gDoms(el + ' .gr-tab-context');
+			let header = _.qSel(el + ' .gr-tab-header');
+			let titList = _.qSels(el + ' .gr-tab-tit');
+			let contentList = _.qSels(el + ' .gr-tab-context');
 			header.addEventListener('click',function(e){
 				let clickIndex = parseInt(e.srcElement.dataset.index);
 				if (isNaN(clickIndex)) return;

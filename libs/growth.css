@@ -11,7 +11,7 @@
 .gr-tab-header{
 	display: flex;
 	justify-content: flex-start;
-	margin-bottom: 10px;
+	margin-bottom: 14px;
 }
 .gr-tab-header a{
 	display: inline-block;
@@ -21,6 +21,7 @@
 	text-decoration: none;
 	color: #000;
 	border-radius: 8px;
+	position: relative;
 }
 .gr-tab-header a:hover{
 	background-color: #FEAD70;
@@ -30,6 +31,19 @@
 	background-color: #FF7300;
 	color: #fff;
 }
+.gr-tab-header a.active::before{
+	content: '';
+	display:inline-block;
+	border-bottom: 10px solid #989898;
+	border-top: 10px solid transparent;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	position: absolute;
+	bottom: -14px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
 .gr-tab-content .gr-tab-context{
 	display: none;
 }
@@ -39,4 +53,26 @@
 .gr-tab-content .gr-tab-context{
 	padding: 15px 20px;
 	box-shadow: 0px 0px 5px #000;
+	border-radius: 8px;
+}
+
+
+.gr-collapse-header{
+	background-color: #F5F5F5;
+	padding: 10px;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border:1px solid #DDDDDD;
+	cursor: pointer;
+}
+.gr-collapse-content{
+	height: 0px;
+	overflow: hidden;
+	transition: height .5s;
+}
+.gr-collapse-content.active{
+	height: auto;
+	padding: 10px 15px;
+	border:1px solid #DDDDDD;
+	border-top: none;
 }

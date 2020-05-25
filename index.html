@@ -22,8 +22,9 @@
 		</div>
 	</div>
 
-	<!-- 轮播图 -->
+
 	<hr style="margin-top: 30px;">
+	<!-- 轮播图 -->
 	<div class="gr-slider-box">
 		<ul>
 			<li><img src='./imgs/lb1.jpg'/></li>
@@ -43,6 +44,16 @@
 	<!-- 弹出模态框 -->
 	<button class="gr-blue-btn" style="margin: 10px" onclick="initModal()">点我弹出模态框</button>
 	<div class="hel">growth.setStyle</div>
+	<div class="gr-collapse-box" style="width:200px;">
+		<div class="gr-collapse-header">
+			点击出现下拉列表
+		</div>
+		<div class="gr-collapse-content">
+			请不要把我隐藏起来！哼！
+		</div>
+	</div>
+
+	<hr style="margin-top: 30px;">
 </body>
 <!-- <script src='./libs/utils.js'></script> -->
 <script src='./libs/growth.js'></script>
@@ -78,7 +89,7 @@
 		// console.log(111)
 		growth.showModals({
 			title:'提示',// 选题 标题
-			content:'只要自己变优秀了，其他的事情才会跟着好起来，别整天奢望会遇见什么对的。', // 选填 模态框内容
+			content:'只要自己变优秀了，其他的事情才会跟着好起来，别整天奢望会遇见什么对的。只要自己变优秀了，其他的事情才会跟着好起来，别整天奢望会遇见什么对的。只要自己变优秀了，其他的事情才会跟着好起来，别整天奢望会遇见什么对的。只要自己变优秀了，其他的事情才会跟着好起来，别整天奢望会遇见什么对的。', // 选填 模态框内容
 			confirmText: '确定',// 选填 确定按钮的文本
 			cancelText: '取消',// 选填 取消按钮文本
 			onConfirm:() => {
@@ -92,5 +103,6 @@
 
 	growth.tabs('.gr-tab-box')
 
+	growth.collapse('.gr-collapse-box');
 </script>
 </html>
