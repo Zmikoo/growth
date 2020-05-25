@@ -366,6 +366,7 @@
 			let contentList = _.gDoms(el + ' .gr-tab-context');
 			header.addEventListener('click',function(e){
 				let clickIndex = parseInt(e.srcElement.dataset.index);
+				if (isNaN(clickIndex)) return;
 				titList.forEach((item,index) => {
 					if (index === clickIndex) {
 						titList[index].classList.add('active');
