@@ -57,3 +57,28 @@ growth.showModals({
 		}
 	})
 ```
+### tab
+1. 引入growth.js
+```
+<link rel="stylesheet" type="text/css" href="./libs/growth.css">
+```
+2. 编辑html
+```
+<!-- gr-tab-box类名可任意取，主要是用于js初始化时传入类名 -->
+<div class="gr-tab-box">
+	<div class="gr-tab-header">
+		<a href='#' class="gr-tab-tit active" data-index='0'>首页</a>
+		<a href='#' class="gr-tab-tit" data-index='1'>新闻</a>
+		<a href='#' class="gr-tab-tit" data-index='2'>抽奖</a>
+	</div>
+	<div class="gr-tab-content">
+		<div class="gr-tab-context active" data-index='0'>首页内容</div>
+		<div class="gr-tab-context" data-index='1'>新闻内容</div>
+		<div class="gr-tab-context" data-index='2'>抽奖内容</div>
+	</div>
+</div>
+```
+3. 编辑js
+```
+growth.tabs('.gr-tab-box')
+```

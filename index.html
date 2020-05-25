@@ -8,6 +8,22 @@
 	</style>
 <head>
 <body>
+	<!-- tab -->
+	<div class="gr-tab-box">
+		<div class="gr-tab-header">
+			<a href='#' class="gr-tab-tit active" data-index='0'>首页</a>
+			<a href='#' class="gr-tab-tit" data-index='1'>新闻</a>
+			<a href='#' class="gr-tab-tit" data-index='2'>抽奖</a>
+		</div>
+		<div class="gr-tab-content">
+			<div class="gr-tab-context active" data-index='0'>首页内容</div>
+			<div class="gr-tab-context" data-index='1'>新闻内容</div>
+			<div class="gr-tab-context" data-index='2'>抽奖内容</div>
+		</div>
+	</div>
+
+	<!-- 轮播图 -->
+	<hr style="margin-top: 30px;">
 	<div class="gr-slider-box">
 		<ul>
 			<li><img src='./imgs/lb1.jpg'/></li>
@@ -15,12 +31,23 @@
 			<li><img src='./imgs/lb3.jpg'/></li>
 		</ul>
 	</div>
+	<!-- 轮播图 -->
+	<div class="gr-slider-box2">
+		<ul>
+			<li><img src='./imgs/lb1.jpg'/></li>
+			<li><img src='./imgs/lb2.jpg'/></li>
+			<li><img src='./imgs/lb3.jpg'/></li>
+		</ul>
+	</div>
+
+	<!-- 弹出模态框 -->
 	<button class="gr-blue-btn" style="margin: 10px" onclick="initModal()">点我弹出模态框</button>
 	<div class="hel">growth.setStyle</div>
 </body>
 <!-- <script src='./libs/utils.js'></script> -->
 <script src='./libs/growth.js'></script>
 <script type="text/javascript">
+
 	growth.slider({
 		el:'.gr-slider-box',//必填
 		width: '50em',//选填 支持单位px,em,rem
@@ -32,6 +59,11 @@
 		dotShow:true,//选填 默认为true
 		firstShow:0//选填  首次显示的图片。传值若小于0，首次显示第一张，传值若大于li总长度，首次显示最后一张
 	});
+
+	growth.slider({
+		el:'.gr-slider-box2'
+	});
+
 	growth.setStyle(document.querySelector('.hel'),{
 		backgroundColor:'pink',
 		color:'#fff',
@@ -41,6 +73,7 @@
 	},function(){
 		console.log('setStyleSuccess')
 	})
+
 	function initModal(){
 		// console.log(111)
 		growth.showModals({
@@ -56,5 +89,8 @@
 			}
 		})
 	}
+
+	growth.tabs('.gr-tab-box')
+
 </script>
 </html>

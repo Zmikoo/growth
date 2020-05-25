@@ -7,3 +7,36 @@
 	cursor: pointer
 	outline: 0;
 }
+
+.gr-tab-header{
+	display: flex;
+	justify-content: flex-start;
+	margin-bottom: 10px;
+}
+.gr-tab-header a{
+	display: inline-block;
+	padding: 10px 15px;
+	margin: 0px 5px;
+	cursor: pointer;
+	text-decoration: none;
+	color: #000;
+	border-radius: 8px;
+}
+.gr-tab-header a:hover{
+	background-color: #FEAD70;
+	color: #fff;
+}
+.gr-tab-header a.active{
+	background-color: #FF7300;
+	color: #fff;
+}
+.gr-tab-content .gr-tab-context{
+	display: none;
+}
+.gr-tab-content .gr-tab-context.active{
+	display: block;
+}
+.gr-tab-content .gr-tab-context{
+	padding: 15px 20px;
+	box-shadow: 0px 0px 5px #000;
+}
