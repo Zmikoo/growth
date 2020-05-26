@@ -60,7 +60,7 @@ growth.showModals({
 ### tab
 1. 引入growth.js
 ```
-<link rel="stylesheet" type="text/css" href="./libs/growth.css">
+<link rel="stylesheet" type="text/css" href="./dist/main.js">
 ```
 2. 编辑html
 ```

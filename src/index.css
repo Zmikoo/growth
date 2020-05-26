@@ -1,10 +1,12 @@
+
+
 .gr-blue-btn{
 	background-color: #409EFF;
 	color:#fff;
 	border-radius: 5px;
 	border:0 none;
 	padding: 10px 8px;
-	cursor: pointer
+	cursor: pointer;
 	outline: 0;
 }
 
@@ -66,13 +68,19 @@
 	cursor: pointer;
 }
 .gr-collapse-content{
-	height: 0px;
+	max-height: 0px;
 	overflow: hidden;
-	transition: height .5s;
-}
-.gr-collapse-content.active{
-	height: auto;
-	padding: 10px 15px;
+	transition: max-height 0.5s ease;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	border:1px solid #DDDDDD;
 	border-top: none;
 }
+.gr-collapse-content.active{
+	max-height: 300px;
+}
+.gr-collapse-content-inner{
+	margin: 10px 15px;
+}
+

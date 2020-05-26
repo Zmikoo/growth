@@ -1,5 +1,6 @@
 // 第一个插件：轮播图
 // import './utils.js'
+// import './index.css';
 (function(window){
 
 	function _gUtils(){
@@ -19,6 +20,9 @@
 						domObj.style[s] = styleList[s];
 					}
 				})
+			},
+			getStyle(node,styleName){
+				return getComputedStyle(node)[styleName]
 			},
 			addEle(parent,children){
 				children.forEach(child => {
@@ -357,16 +361,27 @@
 
 		// 下拉框
 		collapse(el){
-			console.log(el + ' .gr-collapse-header')
+			let self = this;
 			const header = _.qSel(el + ' .gr-collapse-header');
 			const content = _.qSel(el + ' .gr-collapse-content');
+			// const contentInner = _.qSel(el + ' .gr-collapse-content-inner');
+			// const contentInnerHeight = parseInt(_.getStyle(contentInner,'height').slice(0,-1)) + 20;
 			header.addEventListener('click', function(e){
 				if (e.srcElement.attributes[0].value.indexOf('active') !== -1){
-					header.classList.remove('active')
-					content.classList.remove('active')
+					header.classList.remove('active');
+					content.classList.remove('active');
 				} else {
-					header.classList.add('active')
-					content.classList.add('active')
+					header.classList.add('active');
+					content.classList.add('active');
+					// let timer = setInterval(() => {
+					// 	let currHeight = parseInt(_.getStyle(content,'height').slice(0,-1));
+					// 	if (currHeight < contentInnerHeight && ((currHeight + 1) > contentInnerHeight)){
+					// 		self.setStyle(content,{height: currHeight + 1 + 'px'})
+					// 	} else {
+					// 		self.setStyle(content,{height: contentInnerHeight + 'px'});
+					// 		clearInterval(timer)
+					// 	}
+					// },0.000001)
 				}
 			},false)
 		}
@@ -395,7 +410,6 @@
 			},false)
 		}
 	}
-	
-
 	window.growth = new Growth();
+
 }(window))

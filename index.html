@@ -3,9 +3,7 @@
 <head>
 	<title></title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="./libs/growth.css">
-	<style type="text/css">
-	</style>
+	<link rel="stylesheet" href="./src/index.css">
 <head>
 <body>
 	<!-- tab -->
@@ -25,40 +23,44 @@
 
 	<hr style="margin-top: 30px;">
 	<!-- 轮播图 -->
-	<div class="gr-slider-box">
-		<ul>
-			<li><img src='./imgs/lb1.jpg'/></li>
-			<li><img src='./imgs/lb2.jpg'/></li>
-			<li><img src='./imgs/lb3.jpg'/></li>
-		</ul>
-	</div>
-	<!-- 轮播图 -->
-	<div class="gr-slider-box2">
-		<ul>
-			<li><img src='./imgs/lb1.jpg'/></li>
-			<li><img src='./imgs/lb2.jpg'/></li>
-			<li><img src='./imgs/lb3.jpg'/></li>
-		</ul>
+	<div style="display: flex; flex-wrap: wrap;">
+		<!-- 轮播图1 -->
+		<div class="gr-slider-box">
+			<ul>
+				<li><img src='./imgs/lb1.jpg'/></li>
+				<li><img src='./imgs/lb2.jpg'/></li>
+				<li><img src='./imgs/lb3.jpg'/></li>
+			</ul>
+		</div>
+		<div style="border: 1px solid #ddd;margin: 0px 20px;"></div>
+		<!-- 轮播图2 -->
+		<div class="gr-slider-box2">
+			<ul>
+				<li><img src='./imgs/lb1.jpg'/></li>
+				<li><img src='./imgs/lb2.jpg'/></li>
+				<li><img src='./imgs/lb3.jpg'/></li>
+			</ul>
+		</div>
 	</div>
 
 	<!-- 弹出模态框 -->
-	<button class="gr-blue-btn" style="margin: 10px" onclick="initModal()">点我弹出模态框</button>
+	<button class="gr-blue-btn" style="margin: 10px">点我弹出模态框</button>
 	<div class="hel">growth.setStyle</div>
 	<div class="gr-collapse-box" style="width:200px;">
 		<div class="gr-collapse-header">
 			点击出现下拉列表
 		</div>
 		<div class="gr-collapse-content">
-			请不要把我隐藏起来！哼！
+			<div class="gr-collapse-content-inner">
+				请不要把我隐藏起来！哼！
+			</div> 
 		</div>
 	</div>
-
 	<hr style="margin-top: 30px;">
 </body>
-<!-- <script src='./libs/utils.js'></script> -->
-<script src='./libs/growth.js'></script>
-<script type="text/javascript">
-
+<!-- <script src='./dist/growth.js'></script> -->
+<script src='./src/index.js'></script>
+<script>
 	growth.slider({
 		el:'.gr-slider-box',//必填
 		width: '50em',//选填 支持单位px,em,rem
@@ -84,7 +86,7 @@
 	},function(){
 		console.log('setStyleSuccess')
 	})
-
+	document.querySelector('.gr-blue-btn').addEventListener('click',initModal,false)
 	function initModal(){
 		// console.log(111)
 		growth.showModals({
