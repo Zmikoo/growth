@@ -5,7 +5,7 @@
 
 引入growth.js
 ```
-<script src='./libs/growth.js'></script>
+<script src='./src/growth.js'></script>
 ```
 ### 设置dom样式
 ```
@@ -98,4 +98,19 @@ growth.tabs('.gr-tab-box')
 2. 编辑js
 ```
 growth.collapse('.gr-collapse-box');
+```
+### 跑马灯
+1. html
+```
+<div class="gr-marqueen">
+	<span>季节是人心中的年轮，一日一日流动的光芒里，你终于忘不了的和总是放不下的，就那么沉淀下来，一圈又一圈，镂刻在离灵魂最近的地方，人们常常混然不觉。只是当某天惊讶的看到镜中自己褶皱的容颜时，才始发现，原来沧桑年年有痕。</span>
+</div>
+```
+2. 编辑js
+```
+growth.marqueen({
+		startStay:2,// 选填，开头文字停留时间，1为1s,0为0s,不填默认停留1s
+		endStay:1 // 选填，结尾文字停留时间，1为1s,0为0s,不填默认停留1s
+		speed:'quick' // 选填 文字滑动速度，可选值：slow,medium,quick 
+	});
 ```

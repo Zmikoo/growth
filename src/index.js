@@ -1,8 +1,5 @@
 // 第一个插件：轮播图
-// import './utils.js'
-// import './index.css';
 (function(window){
-
 	function _gUtils(){
 		return {
 			cEle(type) {
@@ -409,7 +406,52 @@
 				})
 			},false)
 		}
+
+		// 跑马灯
+		marqueen(options){
+			let _options = {
+				startStay: options.startStay*1000 || 1000,
+				endStay: options.endStay*1000 || 1000,
+				speed: options.speed || 'slow'
+			}
+			let textBox = _.qSel('.gr-marqueen');
+			let text = _.qSel('.gr-marqueen span');
+			let textBoxWidth = parseInt(_.getStyle(textBox,'width').slice(0,-2));
+			let textWidth = text.offsetWidth;
+			let _speed = {
+				slow: [100,2],
+				medium: [30,2],
+				quick: [10,2]
+			}
+			let currSpeed = _speed[_options.speed];
+            if (textWidth > textBoxWidth) {  
+                let stayTime = _options.startStay;
+                let endStay = true;
+                let marqueeTimer = setInterval(function(){
+                    if (stayTime >= 0) {
+                        stayTime = stayTime - currSpeed[0];
+                    } else {
+						let textLeft = parseInt(text.style.left.slice(0,-2));
+                        if (textLeft > (textBoxWidth - textWidth)) {
+							text.style.left = (textLeft - currSpeed[1]) + 'px'
+                        } else {
+                            // 结尾处暂停2s;
+                            if (endStay) {
+                                endStay = false;
+                                stayTime = _options.endStay;
+                                return;
+                            }
+                            // 回到开头位置时在开头位置停留2s;后再开始转
+                            text.style.left = '0px';
+                            stayTime = _options.startStay;
+                            endStay = true;
+                        }
+                    }
+                },currSpeed[0]);
+            }
+		}
 	}
 	window.growth = new Growth();
+	// export default new Growth();
 
 }(window))

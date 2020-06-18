@@ -20,8 +20,13 @@
 		</div>
 	</div>
 
-
 	<hr style="margin-top: 30px;">
+
+	<!-- 跑马灯 -->
+	<div class="gr-marqueen" style='border:1px solid #ccc;padding: 10px;background-color: rgba(0,0,0,0.3);color:#fff;width: 500px;'>
+		<span>季节是人心中的年轮，一日一日流动的光芒里，你终于忘不了的和总是放不下的，就那么沉淀下来，一圈又一圈，镂刻在离灵魂最近的地方，人们常常混然不觉。只是当某天惊讶的看到镜中自己褶皱的容颜时，才始发现，原来沧桑年年有痕。</span>
+	</div>
+	<hr style="margin-top: 15px;">
 	<!-- 轮播图 -->
 	<div style="display: flex; flex-wrap: wrap;">
 		<!-- 轮播图1 -->
@@ -61,6 +66,14 @@
 <!-- <script src='./dist/growth.js'></script> -->
 <script src='./src/index.js'></script>
 <script>
+	// 跑马灯
+	growth.marqueen({
+		startStay:1,
+		endStay:1,
+		speed:'medium'
+	});
+
+	// 轮播图
 	growth.slider({
 		el:'.gr-slider-box',//必填
 		width: '50em',//选填 支持单位px,em,rem
@@ -77,6 +90,7 @@
 		el:'.gr-slider-box2'
 	});
 
+	// 设置样式
 	growth.setStyle(document.querySelector('.hel'),{
 		backgroundColor:'pink',
 		color:'#fff',
@@ -86,6 +100,8 @@
 	},function(){
 		console.log('setStyleSuccess')
 	})
+
+	// 弹出模态框
 	document.querySelector('.gr-blue-btn').addEventListener('click',initModal,false)
 	function initModal(){
 		// console.log(111)
@@ -103,8 +119,10 @@
 		})
 	}
 
+	// tab标签
 	growth.tabs('.gr-tab-box')
 
+	// 下拉菜单
 	growth.collapse('.gr-collapse-box');
 </script>
 </html>

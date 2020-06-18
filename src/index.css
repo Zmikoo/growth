@@ -84,3 +84,12 @@
 	margin: 10px 15px;
 }
 
+.gr-marqueen{
+	overflow: hidden;
+}
+.gr-marqueen span{
+	position: relative;
+	white-space: nowrap;
+	left:0px;
+}
+
