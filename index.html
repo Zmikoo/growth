@@ -7,23 +7,28 @@
 <head>
 <body>
 	<!-- tab -->
-	<div class="gr-tab-box">
+	<div class="gr-tab-box" style='display:inline-block;'>
 		<div class="gr-tab-header">
 			<a href='#' class="gr-tab-tit active" data-index='0'>首页</a>
 			<a href='#' class="gr-tab-tit" data-index='1'>新闻</a>
 			<a href='#' class="gr-tab-tit" data-index='2'>抽奖</a>
 		</div>
-		<div class="gr-tab-content">
+		<div class="gr-tab-content" style="width:400px;">
 			<div class="gr-tab-context active" data-index='0'>首页内容</div>
 			<div class="gr-tab-context" data-index='1'>新闻内容</div>
 			<div class="gr-tab-context" data-index='2'>抽奖内容</div>
 		</div>
 	</div>
 
+	<div style="display: inline-block;">	
+		<!-- 弹出模态框 -->
+		<button class="gr-blue-btn" style="margin: 10px">点我弹出模态框</button>
+		<div class="hel">growth.setStyle</div>
+	</div>
 	<hr style="margin-top: 30px;">
 
 	<!-- 跑马灯 -->
-	<div class="gr-marqueen" style='border:1px solid #ccc;padding: 10px;background-color: rgba(0,0,0,0.3);color:#fff;width: 500px;'>
+	<div class="gr-marqueen" style='display:inline-block;border:1px solid #ccc;padding: 10px;background-color: rgba(0,0,0,0.3);color:#fff;width: 500px;'>
 		<span>季节是人心中的年轮，一日一日流动的光芒里，你终于忘不了的和总是放不下的，就那么沉淀下来，一圈又一圈，镂刻在离灵魂最近的地方，人们常常混然不觉。只是当某天惊讶的看到镜中自己褶皱的容颜时，才始发现，原来沧桑年年有痕。</span>
 	</div>
 	<hr style="margin-top: 15px;">
@@ -48,9 +53,6 @@
 		</div>
 	</div>
 
-	<!-- 弹出模态框 -->
-	<button class="gr-blue-btn" style="margin: 10px">点我弹出模态框</button>
-	<div class="hel">growth.setStyle</div>
 	<div class="gr-collapse-box" style="width:200px;">
 		<div class="gr-collapse-header">
 			点击出现下拉列表
@@ -63,8 +65,8 @@
 	</div>
 	<hr style="margin-top: 30px;">
 </body>
-<!-- <script src='./dist/growth.js'></script> -->
-<script src='./src/index.js'></script>
+<script src='./dist/growth.js'></script>
+<!-- <script src='./src/index.js'></script> -->
 <script>
 	// 跑马灯
 	growth.marqueen({

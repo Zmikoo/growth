@@ -6,6 +6,12 @@
 引入growth.js
 ```
 <script src='./src/growth.js'></script>
+// 或者引入压缩版
+<script src='./dist/growth.js'></script>
+```
+引入growth.css
+```
+<link rel="stylesheet" href="./src/index.css">
 ```
 ### 设置dom样式
 ```
@@ -58,11 +64,7 @@ growth.showModals({
 	})
 ```
 ### tab
-1. 引入growth.js
-```
-<link rel="stylesheet" type="text/css" href="./dist/main.js">
-```
-2. 编辑html
+1. 编辑html
 ```
 <!-- gr-tab-box类名可任意取，主要是用于js初始化时传入类名 -->
 <div class="gr-tab-box">
@@ -78,7 +80,7 @@ growth.showModals({
 	</div>
 </div>
 ```
-3. 编辑js
+2. 编辑js
 ```
 growth.tabs('.gr-tab-box')
 ```

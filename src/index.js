@@ -25,6 +25,9 @@
 				children.forEach(child => {
 					parent.appendChild(child);
 				})
+			},
+			isFalse(val){
+				return val === false;
 			}
 		}
 	}
