@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh" class="no-js">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+<div class="container" id='app'>
+    <!-- <div class='change-data' v-text='tit' @click='changeData'></div> -->
+    <div class="silder-box">
+        <div class="silder-page" v-for='(pageInfo,pageIndex) in bookList'>
+            <div class="main">
+                <div class='bk-box' v-for='(bookInfo,index) in pageInfo'>
+                    <div  :class="setClass(pageIndex)" :style='setBackImg(bookInfo.book_cover)'>
+                    </div> 
+                </div>
+                <div class="bookshelf" v-for='count in 5' v-if='pageInfo.length > (7 * (count - 1))' :style='setShelfTop(count)'></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/book_infos.js"></script>
+<script src='./libs/require.js'  data-main="./js/index.js" defer async="true"></script>
+</body>
+</html>
+

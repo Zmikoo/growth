@@ -36,10 +36,10 @@ growth.setStyle(document.querySelector('.gr-blue-btn'),{
 ```
 2. 编辑js:
 ```
-growth.slider({
-		el:'.gr-slider-box',//必填
-		width: '50em',//选填 支持单位px,em,rem
-		height:'520px',//选填 支持单位px,em,rem
+var slider = growth.slider({
+		el:'.gr-slider-box',//必填 
+		width: '50em',//选填 轮播图的宽度 支持单位px,em,rem
+		height:'520px',//选填 轮播图的高度 支持单位px,em,rem
 		autoSroll: false, // 选填 是否自动轮播 默认为true
 		scrollStayTime: 1,// 选填 自动轮播时图片停留时间 1代表1s
 		scrollTransitonTime: 1, // 选填，自动轮播时图片切换动画的时间间隔 
@@ -47,6 +47,10 @@ growth.slider({
 		dotShow:true,//选填
 		firstShow:1//选填 第一张显示的图片
 	});
+
+slider.goIndex(1,cb); // 调用此方法用于跳转到某轮播图 第一个参数传图片的index值 第二个参数cb为跳转完成后执行的回调函数
+slider.next(cb); // 调用此方法用于去上一张图 cb为跳转完成后执行的回调函数
+slider.prev(cb); // 调用此方法用于去下一张 cb为跳转完成后执行的回调函数
 ```
 ### 创建模态框
 ```

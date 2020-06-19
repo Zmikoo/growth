@@ -1,0 +1,215 @@
+@charset "utf-8";
+
+*{
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+.clearfix:after{
+	content:'';
+	display:block;
+	height:0;
+	line-height:0;
+	clear:both;
+	visibility:none
+	}
+.clearfix{
+	zoom:1;
+}
+
+html,body { 
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background: #8F8F8F;
+	overflow: hidden;
+ }
+
+/* component */
+.container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	min-width: 320px;
+}
+.change-data{
+	position: fixed;
+	left:43%;
+	bottom:5%;
+	width:275px;
+	height: 80px;
+	border-radius: 10px;
+	background-color: #7bbedf;
+	color:#fff;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 30px;
+}
+.silder-box{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-height: 940px;
+	overflow: hidden;
+	overflow-y: auto;
+	margin-top:100px;
+	margin-bottom: 100px;
+}
+.silder-box::-webkit-scrollbar,.main::-webkit-scrollbar,html::-webkit-scrollbar{
+	display: none;
+}
+
+.silder-page{
+	position: absolute;
+	left: 0px;
+	width: 100%;
+	min-width: 1920px;
+	overflow: hidden;
+}
+
+.main {
+	position: relative;
+	padding:0px 145px 200px 250px;
+	overflow: hidden;
+	height: 100%;
+	min-width: 1920px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-content: space-between;
+}
+.bk-box {
+	width:14%;
+	z-index: 1;
+	margin-bottom: 70px;
+	height: 170px;
+}
+
+
+.bk-box .bk-cover {
+	position: absolute;
+	width: 124px;
+	height: 170px;
+	background-size: cover;
+	border-radius: 0 3px 3px 0;
+}
+
+.bookshelf {
+	width: 100%;
+	height: 195px;
+	background: url(../imgs/shelf.png) no-repeat center center;
+	background-size: contain;
+	position: relative;
+	position: absolute;
+	left:0;
+}
+.bookshelf-1 {
+	top:228px;
+}
+
+.bookshelf-2 {
+	top:470px;
+}
+
+.bookshelf-3 {
+	top:710px;
+}
+.bookshelf-4 {
+	top:950px;
+}
+
+.bookshelf-5 {
+	top:1190px;
+}
+
+/* 关于轮播图 */
+.silder-ctrl-next,.silder-ctrl-prev{
+	-webkit-touch-callout:none; /*系统默认菜单被禁用*/
+	-webkit-user-select:none; /*webkit浏览器*/
+	-khtml-user-select:none; /*早期浏览器*/
+	-moz-user-select:none;/*火狐*/
+	-ms-user-select:none; /*IE10*/
+	user-select:none;
+}
+
+.js-silder-ctrl{
+	width: 100%;
+	text-align: center;
+}
+.silder-ctrl-prev,
+.silder-ctrl-next{
+	position: fixed;
+	top: 0;
+	width: 8%;
+	height: 100%;
+	vertical-align: middle;
+	cursor: pointer;
+	color: #fff;
+	font-family: "宋体";
+	font-size: 52px;
+	font-weight: 600;
+	text-shadow: #666 2px 2px 5px;
+}
+.silder-ctrl-prev{
+	left: 50px;
+	text-align: left;
+}
+.silder-ctrl-next{
+	right: 50px;
+	text-align: right;
+}
+.silder-ctrl-prev>span,
+.silder-ctrl-next>span{
+	position: absolute;
+	top: 50%;
+	margin-top: -40px;
+}
+.silder-ctrl-prev>span{
+	left: 0;
+}
+.silder-ctrl-next>span{
+	right: 0;
+}
+.silder-ctrl-con{
+	display: inline-block;
+	width: 4%;
+	padding: 10px 0;
+	margin: 0 10px;
+	cursor: pointer;
+}
+.silder-ctrl-con>span{
+	display: block;
+	line-height: 0;
+	text-indent: -9999px;
+	overflow: hidden;
+	padding: 5px 0;
+	cursor: pointer;
+	background-color: #e4e4e4;
+}
+.silder-ctrl-con.active>span{
+	background-color: #7bbedf;
+}
+
+@media (max-width: 768px){
+	.silder-ctrl-prev,
+	.silder-ctrl-next{
+		width: 10%;
+		font-size: 26px;
+		margin-top: -25px;
+	}
+	.silder-ctrl-con{
+		width: 14px;
+		height: 14px;
+		padding: 0;
+		margin: 0 5px;
+	}
+	.silder-ctrl-con>span{
+		display: block;
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		padding: 0;
+	}
+}

@@ -203,13 +203,13 @@
 			}
 
 			function initStyle(){
-				// if(_options.cycle){
-				// 	let repLi = document.createElement('li');
-				// 	let repImg = document.createElement('img');
-				// 	repImg.src = liDom[0].getElementsByTagName('img')[0].src;
-				// 	repLi.appendChild(repImg);
-				// 	ulDom.appendChild(repLi);
-				// }
+				if(_options.cycle){
+					let repLi = document.createElement('li');
+					let repImg = document.createElement('img');
+					repImg.src = liDom[0].getElementsByTagName('img')[0].src;
+					repLi.appendChild(repImg);
+					ulDom.appendChild(repLi);
+				}
 				let ulWid = boxWidthVal * liDom.length;
 				_.setStyle(new Map([
 					[boxDom,{
@@ -244,28 +244,6 @@
 										]))
 									}(i))
 					
-				}
-			}
-
-			function prev(){
-				if (index > 0) {
-					index--;
-					ulDom.style.left = -index * boxWidthVal + boxWidthUnit;
-					resetDotColor();
-				}
-			}
-			function next(){
-				if (index < itemLength - 1) {
-					index++;
-					ulDom.style.left = -index * boxWidthVal + boxWidthUnit;
-					resetDotColor();
-				}
-			}
-			function goIndex(ind){
-				if (ind >= 0 && ind <= itemLength ) {		
-					index = parseInt(ind);
-					ulDom.style.left = -index * boxWidthVal + boxWidthUnit;
-					resetDotColor();
 				}
 			}
 
@@ -312,7 +290,9 @@
 						transform: 'translateX(-50%)'
 					}]
 				]))
-				for(let i = 0; i < liDom.length; i++) {
+				var dotLength = liDom.length
+				if(_options.cycle) --dotLength;
+				for(let i = 0; i < dotLength; i++) {
 					let dotItem = _.cEle('span');
 					_.setStyle(new Map([
 						[dotItem,{
@@ -356,6 +336,52 @@
 				let timer = setInterval(function(){
 
 				},_options.scrollStayTime * 1000);
+			}
+
+
+			function prev(cb){
+				if (index > 0) {
+					index--;
+					ulDom.style.left = -index * boxWidthVal + boxWidthUnit;
+					resetDotColor();
+					if (cb) cb();
+					return index;
+				}
+			}
+			function next(cb){
+				// if (index === (itemLength - 1)){		
+				// 	if (_options.cycle) {
+				// 		index++;
+				// 		ulDom.style.left = -index * boxWidthVal + boxWidthUnit;
+				// 		index = 0;
+				// 		resetDotColor();
+
+				// 		ulDom.style.transition = '';
+				// 		ulDom.style.left = '0px';
+				// 		ulDom.style.transition = `left ${_options.scrollTransitonTime}s`;
+				// 		return;
+				// 	}
+				// }
+				if (index < itemLength - 1) {
+					index++;
+					ulDom.style.left = -index * boxWidthVal + boxWidthUnit;
+					resetDotColor();
+					if (cb) cb();
+					return index;
+				}
+			}
+			function goIndex(ind,cb){
+				if (ind >= 0 && ind <= itemLength ) {		
+					index = parseInt(ind);
+					ulDom.style.left = -index * boxWidthVal + boxWidthUnit;
+					resetDotColor();
+					if (cb) cb();
+				}
+			}
+			return {
+				prev,
+				next,
+				goIndex
 			}
 		}
 
@@ -436,7 +462,7 @@
                     } else {
 						let textLeft = parseInt(text.style.left.slice(0,-2));
                         if (textLeft > (textBoxWidth - textWidth)) {
-							text.style.left = (textLeft - currSpeed[1]) + 'px'
+							text.style.left = (textLeft - currSpeed[1]) + 'px';
                         } else {
                             // 结尾处暂停2s;
                             if (endStay) {

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        html,body{
+            font-size: 100px;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .film-box{
+            width:100%;
+            height: 100%;
+        }
+        ul{
+            position: relative;
+            width: 100%;
+            list-style: none;
+        }
+        ul li {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            width:0rem;
+            height: 0rem;
+            text-align: center;
+        }
+        ul li.film-show{
+            transition: all 1s;
+            width: 87rem;
+            height: 50rem;
+        }
+        ul li img {
+            /* width: 100%; */
+            height: 100%;
+        }
+
+        /* 左右箭头 */
+        .arrow {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            /* opacity: 0; */
+            z-index: 3;
+        }
+        .prev,.next {
+            position: absolute;
+            height: 5rem;
+            width: 3rem;
+            border-radius: 50%;
+            top: 50%;
+            margin-top: -56px;
+            overflow: hidden;
+            text-decoration: none;
+        }
+        .prev{
+            left: 0;
+            background: url("./imgs/arrow-left.png") no-repeat left top;
+            background-size: 100% 100%;
+        }
+        .next{
+            right: 0;
+            background: url("./imgs/arrow-right.png") no-repeat right top;
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="film-box" id='app'>
+        <ul id="slide">
+            <li v-for='(item,index) in films' 
+                :key='index'
+                v-bind:class="item.show ? 'film-show' : 'film-hide'"
+                v-bind:style="{left:filmsHideLeft}" 
+                v-bind:data-index = 'index' >
+                 <img v-bind:src="item.image"  alt="">
+            </li>
+        </ul>
+        <div class="arrow" id="arrow">
+            <a href="javascript:;" id="arrPrev" class="prev" @click='lastFilm'></a>
+            <a href="javascript:;" id="arrNext" class="next" @click='nextFilm'></a>
+        </div>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            films:[],
+            filmsHideLeft:'0rem',//控制隐藏图片是从左上角跳出来还是从右上角跳出来
+            configStart:0,
+            config:[
+                {
+                    "transform":"scale(0.6)",
+                    "top": '5rem',
+                    "left": '-13rem',
+                    "zIndex": 2,
+                    "backgroundColor":"#98E0AD"
+                },      //0
+                {
+                    "transform":"scale(0.8)",
+                    "top": '3rem',
+                    "left": '13rem',
+                    "zIndex": 3,
+                    "backgroundColor":"#BAD1F0"
+                },     //1
+                {
+                    "transform":"scale(1)",
+                    "top": '2rem',
+                    "left": '45rem',
+                    "zIndex": 4,
+                    "backgroundColor":"#F3DFDE"
+                },     //2
+                {
+                    "transform":"scale(0.8)",
+                    "top": '3rem',
+                    "left": '93rem',
+                    "zIndex": 3,
+                    "backgroundColor":"#BAD1F0"
+                },    //3
+                {
+                    "transform":"scale(0.6)",
+                    "top": '5rem',
+                    "left":'113rem',
+                    "zIndex": 2,
+                    "backgroundColor":"#98E0AD"
+                },    //4
+            ]
+        },
+        methods:{
+            nextFilm(){
+                let self = this;
+                this.filmsHideLeft = '185rem';
+                let currShowFirst = parseInt(document.querySelectorAll('.film-show')[0].dataset.index);
+                // 最后一个位于正中央时按下一个不再反应
+                // console.log(currShowFirst,self.films.length)
+                if (currShowFirst + 3 == self.films.length){
+                    return;
+                }
+                // 改变DOM的显示与隐藏
+                if (self.configStart == 0) {
+                    self.films[currShowFirst].show = false; 
+                    if (currShowFirst + 5 <= this.films.length - 1){// 正中央显示的是倒数第二张或倒数第一张时，按下一个不需要设置哪张显示成true
+                        self.films[currShowFirst + 5].show = true;
+                    }
+                }else if (self.configStart == 1) {
+                    self.films[4].show = true;
+                    self.configStart = 0;
+                } else if(self.configStart == 2){
+                    self.films[3].show = true;
+                    self.configStart = 1;
+                }
+                
+                // console.log(self.films)
+                self.$nextTick(function(){
+                    // 改变DOM的left,top,scale,zIndex,backgroundColor
+                    self.assign();
+                })
+            },
+            lastFilm(){
+                let self = this;
+                this.filmsHideLeft = '0rem';
+                let currShowFirst = parseInt(document.querySelectorAll('.film-show')[0].dataset.index);
+                if (currShowFirst !== 0) { 
+                    self.films[currShowFirst -1].show = true;
+                    if (currShowFirst + 4 <= this.films.length -1) {// 正中央显示的是倒数第二张或倒数第一张时，按上一个不需要设置哪张显示成false
+                        self.films[currShowFirst + 4].show = false;
+                    }
+                } else {
+                    if (self.configStart == 0) {
+                        self.configStart = 1;
+                        self.films[4].show = false;
+                    } else if (self.configStart == 1) {
+                        self.configStart = 2;
+                        self.films[3].show = false;
+                    } else {
+                        // 第一个位于正中央时按上一个不再反应
+                        return;
+                    }
+                }
+                // console.log(self.films)
+                self.$nextTick(function(){
+                    self.assign();
+                })
+            },
+            assign() { 
+                let self = this;
+                var list= document.getElementById("slide").getElementsByClassName("film-show"); //拿到所有li
+                for (var i = 0; i < list.length; i++){
+                    let json = self.config[i + this.configStart];
+                    for (var attr in json) {
+                        list[i].style[attr] = json[attr];
+                    }
+                }
+            }
+        },
+        mounted(){
+            this.films = this.films.concat([
+               {image:'./imgs/9.jpeg',show:true},
+                {image:'./imgs/1.jpg',show:true},
+                {image:'./imgs/2.jpg',show:true},
+                {image:'./imgs/3.jpeg',show:true},
+                {image:'./imgs/4.jpeg',show:true},
+                {image:'./imgs/5.jpg',show:false},
+                {image:'./imgs/6.jpg',show:false},
+                {image:'./imgs/7.jpeg',show:false},
+                {image:'./imgs/8.jpeg',show:false},
+            ]);
+            this.$nextTick(function(){
+                this.assign();
+            })
+            
+        },
+        created(){
+            let rootWidth = document.documentElement.clientWidth || document.body.clientWidth;
+            let rootDom = document.querySelector('html');
+            rootDom.style.fontSize = rootWidth / 1920 * 10 + 'px';
+        }
+    });
+
+    // 功能增强(以上部分已经实现了旋转木马)：鼠标模拟移动端的左滑右滑事件，在左滑右滑中可以切换图片
+    (function(){
+        var touchDot,flagLeft = true,flagRight = true; 
+        var bodyDom = document.querySelector('body');
+        bodyDom.addEventListener('mousedown',down,false);
+        bodyDom.addEventListener('mousemove',move,false);
+        bodyDom.addEventListener('mouseup',up,false);
+        bodyDom.addEventListener('mouseout',up,false);
+        function down(event){
+            touchDot = event.clientX; // 获取触摸时的原点 
+        }
+        function move(event){
+            if (touchDot !== undefined) {
+                var touchMove = event.clientX;
+                // 向左滑动  
+                if (touchMove - touchDot <= -40) {
+                    if (flagLeft) {
+                        vm.nextFilm();
+                        flagLeft = false;// 鼠标左滑只能左滑一张，鼠标未抬起之前持续左滑不能左滑更多图片
+                        flagRight = true;// 鼠标左滑切换图片后，鼠标未抬起之前可以通过再右滑切换回到之前的图片
+                    } else {
+                        touchDot = touchMove;
+                    }
+                }
+                // 向右滑动 
+                if (touchMove - touchDot >= 40) {
+                    if (flagRight) {
+                        vm.lastFilm();
+                        flagRight = false; // 鼠标右滑只能右滑一张，鼠标未抬起之前持续右滑不能右滑更多图片
+                        flagLeft = true;// 鼠标右滑切换图片后，鼠标未抬起之前可以通过再左滑切换回到之前的图片
+                    } else {
+                        touchDot = touchMove;
+                    }
+                }
+            }
+        }
+        function up(event){
+            // 鼠标抬起重置一切可以进行下一步操作;
+            flagRight = true;
+            flagLeft = true;
+            touchDot = undefined;
+        }
+    }())
+</script>
+</html>
